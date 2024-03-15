@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { Button, FormItem, FormStatus, Input } from "@vkontakte/vkui";
 
 import { useFactQuery } from "../api/useFactQuery";
+import { scrollToStart } from "../lib/scroll";
+import { setCursor } from "../lib/cursor";
 
 export const GetFact = () => {
     const { refetch, isLoading, isFetching, isError } = useFactQuery();
@@ -15,11 +17,8 @@ export const GetFact = () => {
             if (element) {
                 const index = data.fact.indexOf(" ");
                 element.value = data.fact;
-                element.focus();
-                element.setSelectionRange(index, index);
-                if (element.scrollWidth > element.clientWidth) {
-                    element.scrollLeft = 0;
-                }
+                setCursor(element, index);
+                scrollToStart(element)
             }
         }
     };
