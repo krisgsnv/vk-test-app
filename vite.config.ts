@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import legacy from '@vitejs/plugin-legacy';
+import path from 'path';
 
 function handleModuleDirectivesPlugin() {
   return {
@@ -23,6 +24,12 @@ function handleModuleDirectivesPlugin() {
  */
 export default defineConfig({
   base: './',
+
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 
   plugins: [
     react(),

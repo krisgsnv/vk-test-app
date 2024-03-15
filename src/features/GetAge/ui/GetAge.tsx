@@ -3,11 +3,11 @@ import { Button, FormItem, FormStatus } from "@vkontakte/vkui";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import { useDebounce } from "@/shared/hooks/useDebounce";
+import { FieldController } from "@/shared/ui/FieldController";
+import { useAgeQuery } from "../api/useAgeQuery";
 import { schema } from "../model/schema";
 import type { IFetchAgeResponse, IGetAgeFormData } from "../model/types";
-import { FieldController } from "../../../shared/ui/FieldController";
-import { useAgeQuery } from "../api/useAgeQuery";
-import { useDebounce } from "../../../shared/hooks/useDebounce";
 
 export const GetAge = () => {
     const {
@@ -47,7 +47,13 @@ export const GetAge = () => {
             <FieldController name="name" label="Имя" control={control} />
             {isSuccess && <FormItem>Возраст: {getAge(data.age)}</FormItem>}
             {isError && <FormStatus header="Возникла ошибка, попробуйте позднее" mode="error" />}
-            <Button disabled={isLoading || isFetching} type="submit" stretched size="l" mode="secondary">
+            <Button
+                disabled={isLoading || isFetching}
+                type="submit"
+                stretched
+                size="l"
+                mode="secondary"
+            >
                 Отправить
             </Button>
         </form>
