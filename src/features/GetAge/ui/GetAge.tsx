@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { Button, FormItem, FormStatus } from "@vkontakte/vkui";
+import { Button, Div, FormItem } from "@vkontakte/vkui";
 import { type SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useDebounce } from "@/shared/hooks/useDebounce";
-import { FieldController } from "@/shared/ui/FieldController";
+import { ErrorMessage, FieldController } from "@/shared/ui";
 import { useAgeQuery } from "../api/useAgeQuery";
 import { schema } from "../model/schema";
 import type { IFetchAgeResponse, IGetAgeFormData } from "../model/types";
@@ -32,6 +32,7 @@ export const GetAge = () => {
         if (isDirty) {
             handleSubmit(onSubmit)();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue]);
 
     const onSubmit: SubmitHandler<IGetAgeFormData> = () => {
@@ -45,17 +46,23 @@ export const GetAge = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <FieldController name="name" label="Имя" control={control} />
-            {isSuccess && <FormItem>Возраст: {getAge(data.age)}</FormItem>}
-            {isError && <FormStatus header="Возникла ошибка, попробуйте позднее" mode="error" />}
-            <Button
-                disabled={isLoading || isFetching}
-                type="submit"
-                stretched
-                size="l"
-                mode="secondary"
-            >
-                Отправить
-            </Button>
+            {isSuccess && <Div>Возраст: {getAge(data.age)}</Div>}
+            {isError && (
+                <Div>
+                    <ErrorMessage />
+                </Div>
+            )}
+            <FormItem>
+                <Button
+                    disabled={isLoading || isFetching}
+                    type="submit"
+                    stretched
+                    size="l"
+                    mode="secondary"
+                >
+                    Отправить
+                </Button>
+            </FormItem>
         </form>
     );
 };

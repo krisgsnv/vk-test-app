@@ -1,6 +1,7 @@
 import { useRef } from "react";
-import { Button, FormItem, FormStatus, Input } from "@vkontakte/vkui";
+import { Button, Div, FormItem, Input } from "@vkontakte/vkui";
 
+import { ErrorMessage } from "@/shared/ui";
 import { useFactQuery } from "../api/useFactQuery";
 import { scrollToStart } from "../lib/scroll";
 import { setCursor } from "../lib/cursor";
@@ -18,7 +19,7 @@ export const GetFact = () => {
                 const index = data.fact.indexOf(" ");
                 element.value = data.fact;
                 setCursor(element, index);
-                scrollToStart(element)
+                scrollToStart(element);
             }
         }
     };
@@ -28,17 +29,22 @@ export const GetFact = () => {
             <FormItem top="Факт">
                 <Input getRef={inputRef} />
             </FormItem>
-
-            {isError && <FormStatus header="Возникла ошибка, попробуйте позднее" mode="error" />}
-            <Button
-                disabled={isLoading || isFetching}
-                type="submit"
-                stretched
-                size="l"
-                mode="secondary"
-            >
-                Узнать факт!
-            </Button>
+            {isError && (
+                <Div>
+                    <ErrorMessage />
+                </Div>
+            )}
+            <FormItem>
+                <Button
+                    disabled={isLoading || isFetching}
+                    type="submit"
+                    stretched
+                    size="l"
+                    mode="secondary"
+                >
+                    Узнать факт!
+                </Button>
+            </FormItem>
         </form>
     );
 };
