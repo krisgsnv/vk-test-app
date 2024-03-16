@@ -1,4 +1,4 @@
-import { App } from "@/App";
+import { App } from "../App";
 import { VKProvider } from "./VKProvider";
 import { QueryClientProvider } from "./QueryClientProvider";
 
